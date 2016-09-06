@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<script src="node_modules/handjs/hand.min.js" type="text/javascript" charset="utf-8" async></script>
+
+<script src="node_modules/babylonjs/Oimo.js" type="text/javascript" charset="utf-8" async></script>
+<script src="node_modules/babylonjs/babylon.max.js" type="text/javascript"></script>
+
+
+<script type="text/javascript" src="js/boxgame.boxmesh.js"></script>
+<script type="text/javascript" src="js/boxgame.worldmanager.js"></script>
+
+<link rel="stylesheet" href="assets/stylesheets/index.css">
+</head>
+<body>
+
+<canvas id='renderCanvas'>
+	
+</canvas>
+<script>
+
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+        var startPoint = new BABYLON.Vector3(10 * 16, 4, 10 * 16);
+        var camera;
+        var worldWidthInChunks = 25;
+        var worldDepthInChunks = 25;
+
+        var createScene = function () {
+            var scene = new BABYLON.Scene(engine);
+
+            scene.collisionsEnabled = true;
+            scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+
+            camera = new BABYLON.FreeCamera("freeCamera", startPoint, scene);
+            camera.attachControl(canvas, false);
+            camera.keysUp.push(87);
+            camera.keysDown.push(83);
+            camera.keysRight.push(68);
+            camera.keysLeft.push(65);
+
+            camera.applyGravity = false;
+            camera.checkCollisions = true;
+            camera.speed = 0.4;
+
+            var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 25, 0), scene);
+            light.intensity = 1.0;
+
+            // Skybox
+            var skybox = BABYLON.Mesh.CreateBox("skyBox", 6000.0, scene);
+			var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+			skyboxMaterial.backFaceCulling = false;
+			skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/images/skybox", scene);
+			skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+			skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+			skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+			skyboxMaterial.disableLighting = true;
+			skybox.material = skyboxMaterial;
+
+            return scene;
+        };
+
+        var createWorldManager = function (scene) {
+            var worldManager = new BOXMONGER.WordManager(worldWidthInChunks, worldDepthInChunks, 1, scene);
+            worldManager.initData();
+            return worldManager;
+        };
+
+        var scene = createScene();
+        scene.debugLayer.show();
+        var worldManager = createWorldManager(scene);
+
+        var del = false;
+        var add = false;    
+
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+        function getChar(event) {
+            if (event.which == null) {
+                return String.fromCharCode(event.keyCode) // IE
+            } else if (event.which!=0 && event.charCode!=0) {
+                return String.fromCharCode(event.which)   // the rest
+            } else {
+                return null // special key
+            }
+        }
+
+        canvas.addEventListener('mouseup', function (evt) {
+            var mousePos = getMousePos(canvas, evt);
+            //worldManager.removeFromCoords(mousePos.x, mousePos.y, camera);
+            worldManager.addFromCoords(mousePos.x, mousePos.y, camera);
+        }, false);
+
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        setInterval(function () {
+            worldManager.setPlayerPosition(camera.position.x, camera.position.y, camera.position.z);
+        }, 500);
+
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+</script>
+</body>
+</html>
+
+
