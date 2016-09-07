@@ -249,9 +249,7 @@ var BOXMONGER;
                 for (var z = 0; z < this._depth * Chunk.CHUNKDEPTH; z++) {
                     height =  1;
                     this.addBox(x, height, z, BlocTypes.GRASS);
-                        this.addBox(x, 2, z, BlocTypes.STONE);  
-                    }
-                    if(x%2 == 0){
+                        
                     /*
                     if (Math.random() > 0.8) {
                         if (Math.random() > 0.8) {

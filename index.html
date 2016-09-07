@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Dania</title>
 <script src="node_modules/handjs/hand.min.js" type="text/javascript" charset="utf-8" async></script>
 
 <script src="node_modules/babylonjs/Oimo.js" type="text/javascript" charset="utf-8" async></script>
@@ -19,7 +19,7 @@
 	
 </canvas>
 <script>
-
+    var DEBUG = true;
         var canvas = document.getElementById("renderCanvas");
         var engine = new BABYLON.Engine(canvas, true);
         var startPoint = new BABYLON.Vector3(10 * 16, 4, 10 * 16);
@@ -34,12 +34,14 @@
             scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
 
             camera = new BABYLON.FreeCamera("freeCamera", startPoint, scene);
+            //camera = new BABYLON.ArcRotateCamera("arcCamera", 1, 0.8, 10, new BABYLON.Vector3(0, -1, 0), scene);
             camera.attachControl(canvas, false);
             camera.keysUp.push(87);
             camera.keysDown.push(83);
             camera.keysRight.push(68);
             camera.keysLeft.push(65);
 
+            camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
             camera.applyGravity = false;
             camera.checkCollisions = true;
             camera.speed = 0.4;
@@ -68,7 +70,10 @@
         };
 
         var scene = createScene();
-        scene.debugLayer.show();
+        if(DEBUG){
+          scene.debugLayer.show();        
+        }
+
         var worldManager = createWorldManager(scene);
 
         var del = false;
@@ -109,6 +114,11 @@
         window.addEventListener("resize", function () {
             engine.resize();
         });
+        if(DEBUG){
+            canvas.addEventListener('mousemove', function(){
+                
+            });
+        }
 </script>
 </body>
 </html>

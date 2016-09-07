@@ -14,8 +14,10 @@ var BOXMONGER;
             this._capacity = startCapacity;
             this._boxMaterial = material;
             this._scene = scene;
+            
             this._mesh = new BABYLON.Mesh(name, this._scene);
             this._mesh.checkCollisions = true;
+
             if (position !== undefined) {
                 this._mesh.position = position;
             }
