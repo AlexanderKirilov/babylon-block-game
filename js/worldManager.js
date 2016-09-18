@@ -12,7 +12,7 @@ function WorldManager(width, depth, unitBoxSize, scene) {
         this._availableDisplayers.push(new ChunkDisplayer(this._unitBoxSize, new BABYLON.Vector3(0, 0, 0), this._scene));
     }
     
-    this._terrainGenerator = new TerrainGenerator('assets/images/skybox_nz.jpg', this);
+    this._terrainGenerator = new TerrainGenerator(this, 'assets/images/terrainTestMap.png', 'assets/images/terrainTestHeightMap.png');
 
 /*
     function populateTerrain(){
@@ -21,15 +21,15 @@ function WorldManager(width, depth, unitBoxSize, scene) {
         for (var x = 0; x < this._width * Chunk.CHUNKWIDTH; x++) {
             for (var z = 0; z < this._depth * Chunk.CHUNKDEPTH; z++) {
                 height = 1;
-                this.addBox(x, 1, z, BlocKTypes.GRASS);
+                this.addBox(x, 1, z, BlockTypes.GRASS);
 
 
                 /*if (Math.random() > 0.8) {
                     if (Math.random() > 0.8) {
-                        this.addBox(x, 2, z, BlocKTypes.STONE);
+                        this.addBox(x, 2, z, BlockTypes.STONE);
                     }
                     else {
-                        this.addBox(x, 2, z, BlocKTypes.SNOW);
+                        this.addBox(x, 2, z, BlockTypes.SNOW);
                     }
                     height = 2;
                 }
@@ -43,12 +43,12 @@ function WorldManager(width, depth, unitBoxSize, scene) {
 WorldManager.prototype.createTree = function (position) {
     var height = Math.floor(Math.random() * 5) + 2;
     for (var h = 0; h < height; h++) {
-        this.addBox(position.x, position.y + h, position.z, BlocKTypes.WOOD);
+        this.addBox(position.x, position.y + h, position.z, BlockTypes.WOOD);
     }
-    this.createPlane(new BABYLON.Vector3(position.x - 2, position.y + height, position.z - 2), 5, 5, BlocKTypes.LEAFS);
-    this.createPlane(new BABYLON.Vector3(position.x - 3, position.y + height + 1, position.z - 3), 7, 7, BlocKTypes.LEAFS);
-    this.createPlane(new BABYLON.Vector3(position.x - 3, position.y + height + 2, position.z - 3), 7, 7, BlocKTypes.LEAFS);
-    this.createPlane(new BABYLON.Vector3(position.x - 2, position.y + height + 3, position.z - 2), 5, 5, BlocKTypes.LEAFS);
+    this.createPlane(new BABYLON.Vector3(position.x - 2, position.y + height, position.z - 2), 5, 5, BlockTypes.LEAFS);
+    this.createPlane(new BABYLON.Vector3(position.x - 3, position.y + height + 1, position.z - 3), 7, 7, BlockTypes.LEAFS);
+    this.createPlane(new BABYLON.Vector3(position.x - 3, position.y + height + 2, position.z - 3), 7, 7, BlockTypes.LEAFS);
+    this.createPlane(new BABYLON.Vector3(position.x - 2, position.y + height + 3, position.z - 2), 5, 5, BlockTypes.LEAFS);
 };
 WorldManager.prototype.createPlane = function (position, width, depth, blockType) {
     for (var x = position.x; x < position.x + width; x++) {
@@ -118,7 +118,7 @@ WorldManager.prototype.addFromCoords = function (x, y, camera) {
     if (hitChunk != undefined) {
         var hitBox = hitChunk.getHitBox(ray, this._playerPosition);
         if (hitBox != undefined) {
-            this.addBox(hitBox.x, hitBox.y + 1, hitBox.z, BlocKTypes.GRASS);
+            this.addBox(hitBox.x, hitBox.y + 1, hitBox.z, BlockTypes.GRASS);
             hitChunk.applyChanges();
         }
     }

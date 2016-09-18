@@ -6,22 +6,22 @@ function ChunkDisplayer(unitBoxSize, positionInWorld, scene) {
     this._initMeshes();
 }
 ChunkDisplayer.prototype._initMeshes = function () {
-    this._meshes = new Array(BlocKTypes.Types.length);
-    for (var typeIndex = 0; typeIndex < BlocKTypes.Types.length; typeIndex++) {
+    this._meshes = new Array(BlockTypes.Types.length);
+    for (var typeIndex = 0; typeIndex < BlockTypes.Types.length; typeIndex++) {
         var material;
-        if (BlocKTypes.Materials[typeIndex] === undefined) {
-            material = new BABYLON.StandardMaterial(BlocKTypes.Types[typeIndex].typeName + "Material", this._scene);
-            material.diffuseTexture = new BABYLON.Texture(BlocKTypes.Types[typeIndex].url, this._scene);
-            if (BlocKTypes.Types[typeIndex].transparency) {
+        if (BlockTypes.Materials[typeIndex] === undefined) {
+            material = new BABYLON.StandardMaterial(BlockTypes.Types[typeIndex].typeName + "Material", this._scene);
+            material.diffuseTexture = new BABYLON.Texture(BlockTypes.Types[typeIndex].url, this._scene);
+            if (BlockTypes.Types[typeIndex].transparency) {
                 material.diffuseTexture.hasAlpha = true;
             }
-            BlocKTypes.Materials[typeIndex] = material;
+            BlockTypes.Materials[typeIndex] = material;
         }
         else {
-            material = BlocKTypes.Materials[typeIndex];
+            material = BlockTypes.Materials[typeIndex];
         }
-        this._meshes[BlocKTypes.Types[typeIndex].typeId] = new BoxMesh(BlocKTypes.Types[typeIndex].typeName + "Box", this._unitBoxSize, Chunk.CHUNKHEIGHT * 4, this._scene, material, this._positionInWorld);
-        this._meshes[BlocKTypes.Types[typeIndex].typeId].checkCollisions = true;
+        this._meshes[BlockTypes.Types[typeIndex].typeId] = new BoxMesh(BlockTypes.Types[typeIndex].typeName + "Box", this._unitBoxSize, Chunk.CHUNKHEIGHT * 4, this._scene, material, this._positionInWorld);
+        this._meshes[BlockTypes.Types[typeIndex].typeId].checkCollisions = true;
     }
 };
 ChunkDisplayer.prototype.addBox = function (x, y, z, boxType) {

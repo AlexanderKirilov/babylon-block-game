@@ -1,32 +1,32 @@
-function BlocKTypes() {
+function BlockTypes() {
 }
-BlocKTypes.STONE = 0;
-BlocKTypes.GRASS = 1;
-BlocKTypes.SNOW = 2;
-BlocKTypes.WOOD = 3;
-BlocKTypes.LEAFS = 4;
-BlocKTypes.Types = [
-    { typeName: "Stone", typeId: BlocKTypes.STONE, url: "./Assets/Textures/stone.png", transparency: false },
-    { typeName: "Grass", typeId: BlocKTypes.GRASS, url: "./Assets/Textures/grass.png", transparency: false },
-    { typeName: "Snow", typeId: BlocKTypes.SNOW, url: "./Assets/Textures/snow.png", transparency: false },
-    { typeName: "Wood", typeId: BlocKTypes.WOOD, url: "./Assets/Textures/wood.png", transparency: false },
-    { typeName: "Leafs", typeId: BlocKTypes.LEAFS, url: "./Assets/Textures/leafs.png", transparency: true },
+BlockTypes.STONE = 0;
+BlockTypes.GRASS = 1;
+BlockTypes.SNOW = 2;
+BlockTypes.WOOD = 3;
+BlockTypes.LEAFS = 4;
+BlockTypes.Types = [
+    { typeName: "Stone", typeId: BlockTypes.STONE, url: "./Assets/Textures/stone.png", transparency: false },
+    { typeName: "Grass", typeId: BlockTypes.GRASS, url: "./Assets/Textures/grass.png", transparency: false },
+    { typeName: "Snow", typeId: BlockTypes.SNOW, url: "./Assets/Textures/snow.png", transparency: false },
+    { typeName: "Wood", typeId: BlockTypes.WOOD, url: "./Assets/Textures/wood.png", transparency: false },
+    { typeName: "Leafs", typeId: BlockTypes.LEAFS, url: "./Assets/Textures/leafs.png", transparency: true },
 ];
-BlocKTypes.Materials = new Array(BlocKTypes.Types.length);
+BlockTypes.Materials = new Array(BlockTypes.Types.length);
 
 function Chunk(positionInWorld) {
     this._width = Chunk.CHUNKWIDTH;
     this._depth = Chunk.CHUNKDEPTH;
     this._height = Chunk.CHUNKHEIGHT;
     this._chunkData = new Array(this._width * this._depth * this._height);
-    this._boxToDraw = new Array(BlocKTypes.Types.length);
+    this._boxToDraw = new Array(BlockTypes.Types.length);
     this._positionInWorld = positionInWorld;
     this._realHeight = 0;
-    for (var i = 0; i < BlocKTypes.Types.length; i++) {
+    for (var i = 0; i < BlockTypes.Types.length; i++) {
         this._boxToDraw[i] = new Array();
     }
-    this._boxToErase = new Array(BlocKTypes.Types.length);
-    for (var i = 0; i < BlocKTypes.Types.length; i++) {
+    this._boxToErase = new Array(BlockTypes.Types.length);
+    for (var i = 0; i < BlockTypes.Types.length; i++) {
         this._boxToErase[i] = new Array();
     }
 }
@@ -80,11 +80,11 @@ Chunk.prototype.applyChanges = function () {
                     }
                 }
             }
-            for (var i = 0; i < BlocKTypes.Types.length; i++) {
+            for (var i = 0; i < BlockTypes.Types.length; i++) {
                 this._boxToDraw[i] = new Array();
             }
-            this._boxToErase = new Array(BlocKTypes.Types.length);
-            for (var i = 0; i < BlocKTypes.Types.length; i++) {
+            this._boxToErase = new Array(BlockTypes.Types.length);
+            for (var i = 0; i < BlockTypes.Types.length; i++) {
                 this._boxToErase[i] = new Array();
             }
             this._displayer.updateMeshes();
@@ -92,7 +92,7 @@ Chunk.prototype.applyChanges = function () {
         }
         else {
             //update boxes
-            for (var meshId = 0; meshId < BlocKTypes.Types.length; meshId++) {
+            for (var meshId = 0; meshId < BlockTypes.Types.length; meshId++) {
                 while (this._boxToDraw[meshId].length > 0) {
                     var x = this._boxToDraw[meshId].pop();
                     var y = this._boxToDraw[meshId].pop();
