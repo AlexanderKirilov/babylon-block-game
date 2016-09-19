@@ -1,9 +1,14 @@
+@font-face {
+  font-family: roboto;
+  src: url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic  "); }
 html, body {
-  overflow: hidden;
   width: 100%;
   height: 100%;
+  padding: 0;
   margin: 0;
-  padding: 0; }
+  overflow: hidden;
+  touch-action: none;
+  font-family: roboto; }
 
 #renderCanvas {
   width: 100%;
@@ -15,7 +20,8 @@ html, body {
   background-color: rgba(0, 0, 0, 0.4);
   right: 20px;
   top: 10px;
-  padding: 20px; }
+  padding: 20px;
+  display: none; }
 
 #chunkInfo {
   padding: 10px;
@@ -28,5 +34,37 @@ html, body {
   color: white;
   margin: 5px 0;
   border: 1px solid rgba(255, 255, 255, 0.4); }
+
+#splashScreen {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+  #splashScreen main {
+    text-align: center;
+    flex: 1 0 auto; }
+  #splashScreen #formCenterBox {
+    display: inline-block;
+    padding: 32px 48px 0px 48px;
+    border: 1px solid #EEE; }
+  #splashScreen .input-field input[type=date]:focus + label,
+  #splashScreen .input-field input[type=text]:focus + label,
+  #splashScreen .input-field input[type=email]:focus + label,
+  #splashScreen .input-field input[type=password]:focus + label {
+    color: #e91e63; }
+  #splashScreen .input-field input[type=date]:focus,
+  #splashScreen .input-field input[type=text]:focus,
+  #splashScreen .input-field input[type=email]:focus,
+  #splashScreen .input-field input[type=password]:focus {
+    border-bottom: 2px solid #e91e63;
+    box-shadow: none; }
+
+.alert {
+  display: inline-block;
+  padding: 32px 48px;
+  border: 1px solid #EEE; }
+
+.alert-danger {
+  background-color: #d32f2f;
+  color: white; }
 
 /*# sourceMappingURL=index.css.map */

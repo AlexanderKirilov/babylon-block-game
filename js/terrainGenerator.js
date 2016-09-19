@@ -1,83 +1,123 @@
-function TerrainGenerator(worldManager, pathToTerrain, pathToHeightMap){
-    this._pathToTerrain = pathToTerrain; 
-    this._pathToHeightMap = pathToHeightMap;
+var TerrainGenerator = (function(){
+    function TerrainGenerator(worldManager, pathToTerrain, pathToHeightMap){
+        this._pathToTerrain = pathToTerrain; 
+        this._pathToHeightMap = pathToHeightMap;
 
-    this._imageWidth = 0;
-    this._imageHeight = 0;
+        this._imageWidth = 0;
+        this._imageHeight = 0;
 
-    this._worldManager = worldManager;
+        this._worldManager = worldManager;
 
-    this._chunkWidth = Chunk.CHUNKWIDTH;
-    this._chunkDepth = Chunk.CHUNKDEPTH;
-    
 
-    this._terrainMapImg = new Image();
-    this._terrainMapImg.src = this._pathToTerrain;
-    this._terrainMapBool = false;
-    
-    this._terrainMapData;
+        this._terrainMapImg = new Image();
+        this._terrainMapImg.src = this._pathToTerrain;
+        this._terrainMapBool = false;
+        
+        this._terrainMapData;
+        
+        this._heightMapImg = new Image();
+        this._heightMapImg.src = this._pathToHeightMap;
+        this._heightMapBool = false;
 
-    var that = this;
-    this._terrainMapImg.addEventListener('load', function(){
-        this._terrainMapBool = true;
+        this._heightMapData;
 
-        that._imageWidth = this.width;
-        that._imageHeight = this.height;
+        var that = this;
+        //Get image data from the Terrain Map
+        this._terrainMapImg.addEventListener('load', function(){
+            that._terrainMapBool = true;
 
-        var canvas = document.createElement('canvas')
-        canvas.width = this.width;
-        canvas.height = this.height;
-        var ctx = canvas.getContext('2d');
+            that._imageWidth = this.width;
+            that._imageHeight = this.height;
 
-        ctx.drawImage(this, 0, 0);
+            var canvas = document.createElement('canvas')
+            canvas.width = this.width;
+            canvas.height = this.height;
+            var ctx = canvas.getContext('2d');
 
-        that._terrainMapData = ctx.getImageData(0, 0, this.width, this.height).data;
+            ctx.drawImage(this, 0, 0);
 
-        that.populateWorldTerrain();
-    });
+            that._terrainMapData = ctx.getImageData(0, 0, this.width, this.height).data;
 
-    this._terrainMapImg.addEventListener('error', function(){
-        console.log('failed to load terrainMap file -- TerrainGenerator');
-    });
-}
+            if(that._mapIsLoaded()){
+                that.populateWorldTerrain();
+            }
+        });
+        this._terrainMapImg.addEventListener('error', function(){
+            console.log('failed to load terrainMap file -- TerrainGenerator');
+        });
 
-TerrainGenerator.prototype.populateWorldTerrain = function (){
+        //Get image date from Height Map
+        this._heightMapImg.addEventListener('load', function(){
+            that._heightMapBool = true;
 
-    var height = 1;
-    for (var x = 0; x < this._worldManager._width * Chunk.CHUNKWIDTH; x++) {
-        for (var z = 0; z < this._worldManager._depth * Chunk.CHUNKDEPTH; z++) {
-            height = 1;
-            this._worldManager.addBox(x, 1, z, this._getBlockTypeAt(x,z));
+            var canvas = document.createElement('canvas')
+            canvas.width = this.width;
+            canvas.height = this.height;
+            var ctx = canvas.getContext('2d');
+
+            ctx.drawImage(this, 0, 0);
+
+            that._heightMapData = ctx.getImageData(0, 0, this.width, this.height).data;
+
+            if(that._mapIsLoaded()){
+                that.populateWorldTerrain();
+            }
+        });
+        this._heightMapImg.addEventListener('error', function(){
+            console.log('failed to load terrainHeightMap file -- TerrainGenerator');
+        });
+    }
+
+    //Populates worldManager with info from the image data
+    TerrainGenerator.prototype.populateWorldTerrain = function (){
+        var height = 1;
+        for (var x = 0; x < this._worldManager._width * Chunk.CHUNKWIDTH; x++) {
+            for (var z = 0; z < this._worldManager._depth * Chunk.CHUNKDEPTH; z++) {
+                height = 1;
+                this._worldManager.addBox(x, this._getMapHeightAt(x,z), z, this._getBlockTypeAt(x,z));
+            }
         }
     }
-}
 
-TerrainGenerator.prototype._getBlockTypeAt = function (x, y){
-    var hexColor = this._getMapPixelColorAt(x, y);
-
-    var blockType = 0;
-    switch(hexColor){
-        case '#0000ff':
-            blockType = BlockTypes.STONE;
-            break;
-        case '#00ff00':
-            blockType = BlockTypes.WOOD;
-            break;
-        default:
-            blockType = BlockTypes.GRASS;
-            break;
+    TerrainGenerator.prototype._getBlockTypeAt = function (x, y){
+        var hexColor = this._getMapPixelColorAt(x, y);
+        //TODO move this to BlockTypes
+        var blockType = 0;
+        switch(hexColor){
+            case '#0000ff':
+                blockType = BlockTypes.STONE;
+                break;
+            case '#00ff00':
+                blockType = BlockTypes.WOOD;
+                break;
+            default:
+                blockType = BlockTypes.GRASS;
+                break;
+        }
+        return blockType;
     }
-    return blockType;
-}
 
-TerrainGenerator.prototype._getMapPixelColorAt = function(x, y){
-    var index = (y * this._imageWidth + x) * 4;
+    //Calculate TerrainMap at:
+    TerrainGenerator.prototype._getMapPixelColorAt = function(x, y){
+        var index = (y * this._imageWidth + x) * 4;
 
-    return rgbToHex(this._terrainMapData[index],this._terrainMapData[++index],this._terrainMapData[++index]);   
-}
+        return rgbToHex(this._terrainMapData[index],this._terrainMapData[++index],this._terrainMapData[++index]);   
+    }
+    //Calculate HeightMap at:
+    TerrainGenerator.prototype._getMapHeightAt = function(x, y){
+        var index = (y * this._imageWidth + x) * 4;
 
-TerrainGenerator.prototype._getMapHeightAt = function(x, y){
-    var index = (y * this._imageWidth + x) * 4;
+        var height = Math.floor(this._heightMapData[index]/8);
+        return height;
+    }
 
-    return this._heightMapData[index];
-}
+    TerrainGenerator.prototype._mapIsLoaded = function(){
+        if(this._terrainMapBool && this._heightMapBool){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    return TerrainGenerator;
+})();
