@@ -14,6 +14,7 @@ var BoxMesh = (function () {
         this._boxMaterial = material;
         this._scene = scene;
         this._mesh = new BABYLON.Mesh(name, this._scene);
+
         if (position !== undefined) {
             this._mesh.position = position;
         }
@@ -24,6 +25,13 @@ var BoxMesh = (function () {
         this._nextWritablePositions.push(0);
         //adding first box
         this.addBox(0, 0, 0);
+
+        /*
+        !!!!!!!!
+        */
+        if(this._mesh.position.y == 0){
+            //console.log(this._mesh);
+        }
     }
     Object.defineProperty(BoxMesh.prototype, "isVisible", {
         get: function () {
@@ -268,7 +276,7 @@ var BoxMesh = (function () {
         }
     };
     BoxMesh.prototype.updateMesh = function () {
-        this._mesh.updateVerticesDataDirectly(BABYLON.VertexBuffer.PositionKind, this._positions);
+        this._mesh.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this._positions);
         this._mesh.setIndices(this._indices, this._numberofCubes * 24);
     };
     BoxMesh.prototype._extendCapacity = function (min) {

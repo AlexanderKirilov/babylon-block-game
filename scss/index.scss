@@ -47,33 +47,42 @@ html, body{
 }
 
 #splashScreen{
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    main{
-      text-align: center;
-      flex: 1 0 auto;
-    }
-    #formCenterBox{
-      display: inline-block;
-      padding: 32px 48px 0px 48px;
-      border: 1px solid #EEE;
-    }
-    .input-field input[type=date]:focus + label,
-    .input-field input[type=text]:focus + label,
-    .input-field input[type=email]:focus + label,
-    .input-field input[type=password]:focus + label {
-      color: #e91e63;
-    }
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 
-    .input-field input[type=date]:focus,
-    .input-field input[type=text]:focus,
-    .input-field input[type=email]:focus,
-    .input-field input[type=password]:focus {
-      border-bottom: 2px solid #e91e63;
-      box-shadow: none;
-    }
+  $inputFocusColor: #e91e63;
+  main{
+    text-align: center;
+    flex: 1 0 auto;
+  }
+  #formCenterBox{
+    display: inline-block;
+    padding: 32px 48px 0px 48px;
+    border: 1px solid #EEE;
+  }
+  .input-field input[type=date]:focus + label,
+  .input-field input[type=text]:focus + label,
+  .input-field input[type=email]:focus + label,
+  .input-field input[type=password]:focus + label {
+    color: $inputFocusColor;
+  }
 
+  .input-field input[type=date]:focus,
+  .input-field input[type=text]:focus,
+  .input-field input[type=email]:focus,
+  .input-field input[type=password]:focus {
+    border-bottom: 2px solid $inputFocusColor;
+    box-shadow: none;
+  }
+
+  .input-field .prefix{
+    margin-top:0.5em;
+  }
+  /* icon prefix focus color */
+  .input-field .prefix.active {
+    color: $inputFocusColor;
+  }
 }
 
 .alert{

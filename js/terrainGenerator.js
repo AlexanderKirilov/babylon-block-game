@@ -70,11 +70,13 @@ var TerrainGenerator = (function(){
 
     //Populates worldManager with info from the image data
     TerrainGenerator.prototype.populateWorldTerrain = function (){
-        var height = 1;
+        var height = 0;
         for (var x = 0; x < this._worldManager._width * Chunk.CHUNKWIDTH; x++) {
             for (var z = 0; z < this._worldManager._depth * Chunk.CHUNKDEPTH; z++) {
-                height = 1;
-                this._worldManager.addBox(x, this._getMapHeightAt(x,z), z, this._getBlockTypeAt(x,z));
+                height = this._getMapHeightAt(x,z);
+                for(var i = height-1; i <= height; i++){
+                    this._worldManager.addBox(x, i , z, this._getBlockTypeAt(x,z));
+                }
             }
         }
     }
@@ -108,6 +110,7 @@ var TerrainGenerator = (function(){
         var index = (y * this._imageWidth + x) * 4;
 
         var height = Math.floor(this._heightMapData[index]/8);
+        height = (height < 1) ? 1 : height;
         return height;
     }
 

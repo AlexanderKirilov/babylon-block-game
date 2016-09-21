@@ -1,4 +1,4 @@
-var BlocTypes = (function () {
+var BlockTypes = (function () {
     function BlockTypes() {
     }
     BlockTypes.STONE = 0;
@@ -7,15 +7,15 @@ var BlocTypes = (function () {
     BlockTypes.WOOD = 3;
     BlockTypes.LEAFS = 4;
     BlockTypes.Types = [
-        { typeName: "Stone", typeId: BlockTypes.STONE, url: "./Assets/Textures/stone.png", transparency: false },
-        { typeName: "Grass", typeId: BlockTypes.GRASS, url: "./Assets/Textures/grass.png", transparency: false },
-        { typeName: "Snow", typeId: BlockTypes.SNOW, url: "./Assets/Textures/snow.png", transparency: false },
-        { typeName: "Wood", typeId: BlockTypes.WOOD, url: "./Assets/Textures/wood.png", transparency: false },
-        { typeName: "Leafs", typeId: BlockTypes.LEAFS, url: "./Assets/Textures/leafs.png", transparency: true },
+        { typeName: "Stone", typeId: BlockTypes.STONE, url: "./Assets/Textures/stone.png", color: new BABYLON.Color3.FromHexString('#009900'), transparency: false, useTexture: true },
+        { typeName: "Grass", typeId: BlockTypes.GRASS, url: "./Assets/Textures/grass.png", color: new BABYLON.Color3.FromHexString('#009900'), transparency: false, useTexture: false },
+        { typeName: "Snow", typeId: BlockTypes.SNOW, url: "./Assets/Textures/snow.png", transparency: false, useTexture: true },
+        { typeName: "Wood", typeId: BlockTypes.WOOD, url: "./Assets/Textures/wood.png", transparency: false, useTexture: true },
+        { typeName: "Leafs", typeId: BlockTypes.LEAFS, url: "./Assets/Textures/leafs.png", transparency: true, useTexture: true },
     ];
     BlockTypes.Materials = new Array(BlockTypes.Types.length);
     
-    return BlocTypes;
+    return BlockTypes;
 })();
 var Chunk = (function () {
     function Chunk(positionInWorld) {

@@ -12,7 +12,12 @@ var ChunkDisplayer = (function () {
             var material;
             if (BlockTypes.Materials[typeIndex] === undefined) {
                 material = new BABYLON.StandardMaterial(BlockTypes.Types[typeIndex].typeName + "Material", this._scene);
-                material.diffuseTexture = new BABYLON.Texture(BlockTypes.Types[typeIndex].url, this._scene);
+                if(BlockTypes.Types[typeIndex].useTexture){
+                    material.diffuseTexture = new BABYLON.Texture(BlockTypes.Types[typeIndex].url, this._scene);
+                }else{
+                    material.diffuseColor = BlockTypes.Types[typeIndex].color;
+                }
+
                 if (BlockTypes.Types[typeIndex].transparency) {
                     material.diffuseTexture.hasAlpha = true;
                 }
@@ -40,6 +45,18 @@ var ChunkDisplayer = (function () {
     ChunkDisplayer.prototype.updateMeshes = function () {
         for (var meshId = 0; meshId < this._meshes.length; meshId++) {
             this._meshes[meshId].updateMesh();
+        }
+    };
+
+    /**
+        FOR DEVELOPMENT ONLY !
+    */
+    ChunkDisplayer.prototype._peekMesh = function(){
+        return this._meshes;
+    };
+    ChunkDisplayer.prototype._recomputeWorldMatrix = function(){
+        for(var i = 0; i < this._meshes.length; i++){
+            console.log(this._meshes[i]._mesh.computeWorldMatrix(true));
         }
     };
     Object.defineProperty(ChunkDisplayer.prototype, "positionInWorld", {

@@ -12,6 +12,7 @@ if(isset($_SESSION['user_session'])){
 	<title>Dania</title>
     <!-- materialize - material design framework | http://materializecss.com/ -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/stylesheets/index.css">
 </head>
@@ -33,12 +34,14 @@ if(isset($_SESSION['user_session'])){
                         </div>
                         <div class='row'>
                             <div class='input-field col s12'>
+                                <i class="material-icons prefix">account_circle</i>
                                 <input class='validate' type='text' name='userName' id='userName' />
                                 <label for='userName'>Enter your username</label>
                             </div>
                         </div>
                         <div class='row'>
                             <div class='input-field col s12'>
+                                <i class="material-icons prefix">vpn_key</i>
                                 <input class='validate' type='password' name='password' id='password' />
                                 <label for='password'>Enter your password</label>
                             </div>
@@ -47,12 +50,12 @@ if(isset($_SESSION['user_session'])){
                             </label>
                         </div>
                         <div style="text-align:center;" class='row'>
-                            <button id="btnLogin"type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
+                            <button id="btnLogin"type='submit' name='btn_login' class='col s12 btn btn-large waves-effect wave-light indigo'>Login</button>
                         </div>    
                     </form>
                 </div>
             </div>
-            <a id="newAccount" href="#!">Create account</a>
+            <a id="newAccount" href="register.php">Create account</a>
             <div class="section"></div>
             <div class="section"></div>
           </main>
@@ -68,7 +71,7 @@ if(isset($_SESSION['user_session'])){
         $("#loginForm").on('submit', function(e){
             submitForm(e);
         });
-        
+
         /* login submit */
         function submitForm(e){
             e.preventDefault();
@@ -117,8 +120,11 @@ if(isset($_SESSION['user_session'])){
     });
     </script>
     <!-- js files for materialize framework -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js" type="text/javascript"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js" type="text/javascript"></script>
     <!-- preload the framework -->
+
+    <script src="js/lib/materialize.js"></script>
+
     <script src="node_modules/babylonjs/babylon.js" type="text/javascript"></script>
 </body>
 </html>

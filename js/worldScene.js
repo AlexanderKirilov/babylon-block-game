@@ -14,7 +14,8 @@ var Game = function(){
         //scene.gravity = new BABYLON.Vector3(0, -5, 0);       
 
         var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 25, 0), scene);
-        light.intensity = 1.0;
+        //handle reflection
+        light.specular = new BABYLON.Color3(0,0,0);
 
         // Skybox
         var skybox = BABYLON.Mesh.CreateBox("skyBox", 6000.0, scene);

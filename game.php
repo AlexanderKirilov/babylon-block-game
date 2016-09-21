@@ -36,7 +36,7 @@ if(!isset($_SESSION['user_session'])){
     <!-- physics library 
     <script src="node_modules/babylonjs/Oimo.js" type="text/javascript" charset="utf-8" async></script>-->
     <!-- the 3D engine - minified -->
-    <script src="node_modules/babylonjs/babylon.js" type="text/javascript"></script>
+    <script src="node_modules/babylonjs/babylon.max.js" type="text/javascript"></script>
 
     <script src="js/utilities.js" type="text/javascript"></script>
     <!-- the custom mesh -->

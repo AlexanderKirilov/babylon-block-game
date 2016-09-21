@@ -1,6 +1,6 @@
 var WorldManager = (function () {
     function WorldManager(width, depth, unitBoxSize, scene) {
-        this._visibleChunksAroundPlayer = 5;
+        this._visibleChunksAroundPlayer = 3;
         this._world = new Array(width * depth);
         this._displayedChunk = new Array();
         this._width = width;
@@ -98,6 +98,10 @@ var WorldManager = (function () {
         if (hitChunk != undefined) {
             var hitBox = hitChunk.getHitBox(ray, this._playerPosition);
             if (hitBox != undefined) {
+                //!!!!!!
+                console.log(hitChunk.displayer._peekMesh());
+                hitChunk.displayer._recomputeWorldMatrix();
+                //
                 this.addBox(hitBox.x, hitBox.y + 1, hitBox.z, BlockTypes.GRASS);
                 hitChunk.applyChanges();
             }
